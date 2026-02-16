@@ -1,17 +1,8 @@
 """
 Vercel用のエントリーポイント
-
-環境変数からAPIキーを読み取り、Vercelのサーバーレス環境で動作します。
 """
 
 import os
-import sys
-from pathlib import Path
-
-# プロジェクトルートをパスに追加
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
-
 from flask import Flask, render_template, request, jsonify
 from weather_zip_lookup.weather_service import WeatherService
 from weather_zip_lookup.exceptions import (
@@ -21,13 +12,12 @@ from weather_zip_lookup.exceptions import (
     MissingAPIKeyError
 )
 
-app = Flask(__name__, template_folder='../templates')
+app = Flask(__name__)
 
 
 @app.route('/')
 def index():
     """メインページ"""
-    # Vercelでは環境変数からデフォルト郵便番号を取得
     default_postal_code = os.environ.get('DEFAULT_POSTAL_CODE', '1000001')
     return render_template('index.html', default_postal_code=default_postal_code)
 
@@ -40,7 +30,6 @@ def get_weather():
         postal_code = request.json.get('postal_code', '').strip()
         
         if not postal_code:
-            # デフォルト郵便番号を使用
             postal_code = os.environ.get('DEFAULT_POSTAL_CODE', '1000001')
         
         # 環境変数からAPIキーを取得
@@ -79,10 +68,3 @@ def get_weather():
         return jsonify({'error': str(e)}), 500
     except Exception as e:
         return jsonify({'error': f'予期しないエラーが発生しました: {str(e)}'}), 500
-
-
-# Vercel用のハンドラー
-def handler(request):
-    """Vercelのサーバーレス関数ハンドラー"""
-    with app.request_context(request.environ):
-        return app.full_dispatch_request()
