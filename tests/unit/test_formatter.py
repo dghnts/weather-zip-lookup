@@ -2,7 +2,7 @@
 
 import pytest
 from colorama import Fore, Back, Style
-from weather_zip_lookup.formatter import OutputFormatter
+from weather_zip_lookup.services import OutputFormatter
 from weather_zip_lookup.models import WeatherData, WeatherAlert
 
 

@@ -2,7 +2,7 @@
 
 import pytest
 import responses
-from weather_zip_lookup.weather_service import WeatherService
+from weather_zip_lookup.services import WeatherService
 from weather_zip_lookup.exceptions import (
     InvalidPostalCodeError,
     APIError,

@@ -4,8 +4,8 @@ import re
 import requests
 from typing import Optional
 
-from .models import WeatherData, WeatherAlert
-from .exceptions import (
+from ..models import WeatherData, WeatherAlert
+from ..exceptions import (
     InvalidPostalCodeError,
     APIError,
     NetworkError,

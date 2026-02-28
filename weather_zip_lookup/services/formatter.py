@@ -1,7 +1,7 @@
 """出力フォーマッターの実装"""
 
 from colorama import Fore, Back, Style, init
-from weather_zip_lookup.models import WeatherData, WeatherAlert
+from ..models import WeatherData, WeatherAlert
 
 # coloramaの初期化（クロスプラットフォーム対応）
 init(autoreset=True)

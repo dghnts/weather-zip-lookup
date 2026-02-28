@@ -1,10 +1,7 @@
-"""
-Vercel用のエントリーポイント
-"""
+"""メインルート - Webアプリケーションのエンドポイント"""
 
-import os
-from flask import Flask, render_template, request, jsonify
-from weather_zip_lookup.weather_service import WeatherService
+from flask import Blueprint, render_template, request, jsonify, current_app
+from weather_zip_lookup.services import WeatherService
 from weather_zip_lookup.exceptions import (
     InvalidPostalCodeError,
     APIError,
@@ -12,17 +9,17 @@ from weather_zip_lookup.exceptions import (
     MissingAPIKeyError
 )
 
-app = Flask(__name__)
+bp = Blueprint('main', __name__)
 
 
-@app.route('/')
+@bp.route('/')
 def index():
     """メインページ"""
-    default_postal_code = os.environ.get('DEFAULT_POSTAL_CODE', '1000001')
+    default_postal_code = current_app.config.get('DEFAULT_POSTAL_CODE', '')
     return render_template('index.html', default_postal_code=default_postal_code)
 
 
-@app.route('/api/weather', methods=['POST'])
+@bp.route('/api/weather', methods=['POST'])
 def get_weather():
     """天気情報を取得するAPIエンドポイント"""
     try:
@@ -30,13 +27,17 @@ def get_weather():
         postal_code = request.json.get('postal_code', '').strip()
         
         if not postal_code:
-            postal_code = os.environ.get('DEFAULT_POSTAL_CODE', '1000001')
+            postal_code = current_app.config.get('DEFAULT_POSTAL_CODE')
+            if not postal_code:
+                return jsonify({
+                    'error': '郵便番号が指定されていません'
+                }), 400
         
-        # 環境変数からAPIキーを取得
-        api_key = os.environ.get('OPENWEATHER_API_KEY')
+        # APIキーを取得
+        api_key = current_app.config.get('OPENWEATHER_API_KEY')
         if not api_key:
             return jsonify({
-                'error': 'APIキーが設定されていません。管理者に連絡してください。'
+                'error': 'APIキーが設定されていません'
             }), 500
         
         # 天気データを取得

@@ -28,27 +28,23 @@ def mock_weather_service():
         location_name="東京都千代田区"
     )
     
-    with patch('web_app.WeatherService') as mock_service:
+    with patch('weather_zip_lookup.services.weather_service.WeatherService') as mock_service:
         mock_service_instance = mock_service.return_value
         mock_service_instance.get_weather_by_postal_code.return_value = mock_weather_data
         yield mock_service
 
 
 @pytest.fixture
-def mock_config():
-    """ConfigManagerをモック化"""
-    with patch('web_app.ConfigManager') as mock_config_manager:
-        mock_instance = mock_config_manager.return_value
-        mock_instance.get_default_postal_code.return_value = "1000001"
-        mock_instance.get_api_key.return_value = "test_api_key"
-        yield mock_instance
-
-
-@pytest.fixture
-def flask_app(mock_weather_service, mock_config):
+def flask_app(mock_weather_service):
     """テスト用のFlaskアプリ"""
-    from web_app import app
-    app.config['TESTING'] = True
+    from weather_zip_lookup import create_app
+    
+    app = create_app({
+        'TESTING': True,
+        'OPENWEATHER_API_KEY': 'test_api_key',
+        'DEFAULT_POSTAL_CODE': '1000001'
+    })
+    
     return app
 
 

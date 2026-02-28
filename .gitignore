@@ -46,3 +46,4 @@ Thumbs.db
 
 # Config files with sensitive data
 config.json
+instance/

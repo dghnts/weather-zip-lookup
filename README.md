@@ -51,7 +51,7 @@ python weather.py -h
 
 ```bash
 # Webサーバーを起動
-python web_app.py
+python run.py
 
 # ブラウザでアクセス
 # http://localhost:5000

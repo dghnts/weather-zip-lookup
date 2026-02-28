@@ -1,6 +1,11 @@
+# Core dependencies (required for production)
 requests>=2.31.0
-colorama>=0.4.6
 flask>=3.0.0
+
+# CLI dependencies (optional for local use)
+colorama>=0.4.6
+
+# Testing dependencies (development only)
 pytest>=7.4.0
 hypothesis>=6.92.0
 responses>=0.24.0

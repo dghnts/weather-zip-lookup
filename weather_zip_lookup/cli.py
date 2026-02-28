@@ -16,8 +16,7 @@ from .exceptions import (
     ConfigError,
     MissingAPIKeyError
 )
-from .weather_service import WeatherService
-from .formatter import OutputFormatter
+from .services import WeatherService, OutputFormatter
 
 
 def parse_arguments() -> argparse.Namespace:
