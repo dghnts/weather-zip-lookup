@@ -128,6 +128,10 @@ pytest tests/e2e/ -v --screenshot=on --video=on
 - ✅ E2Eテスト: 8/8 PASSED
 - 🎯 成功率: 100% (73/73)
 
+## プロジェクト構造
+
+プロジェクトの詳細なアーキテクチャについては、[ARCHITECTURE.md](ARCHITECTURE.md)を参照してください。
+
 ## ライセンス
 
 MIT License
