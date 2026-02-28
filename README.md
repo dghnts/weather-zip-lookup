@@ -59,9 +59,21 @@ python run.py
 
 ## Vercelにデプロイ
 
-### 1. GitHubリポジトリを作成
+### 前提条件
+
+- GitHubアカウント
+- Vercelアカウント（無料）
+- OpenWeatherMap APIキー（[こちら](https://openweathermap.org/api)から無料で取得）
+
+### 1. GitHubリポジトリにプッシュ
 
 ```bash
+# すでにリポジトリがある場合
+git add .
+git commit -m "Update for Vercel deployment"
+git push origin main
+
+# 新規リポジトリの場合
 git init
 git add .
 git commit -m "Initial commit"
@@ -74,27 +86,81 @@ git push -u origin main
 
 1. [Vercel](https://vercel.com)にアクセスしてログイン
 2. 「New Project」をクリック
-3. GitHubリポジトリを選択
-4. 「Deploy」をクリック
+3. GitHubリポジトリを選択（`weather-zip-lookup`）
+4. **Build & Development Settings**:
+   - Framework Preset: `Other`
+   - Build Command: （空欄のまま）
+   - Output Directory: （空欄のまま）
+   - Install Command: `pip install -r requirements-prod.txt`
+5. 「Deploy」をクリック
 
 ### 3. 環境変数を設定
 
-Vercelのプロジェクト設定で以下の環境変数を追加：
+デプロイ後、Vercelのプロジェクト設定で以下の環境変数を追加：
 
-- `OPENWEATHER_API_KEY`: OpenWeatherMapのAPIキー
-- `DEFAULT_POSTAL_CODE`: デフォルトの郵便番号（例: 1000001）
+| 変数名 | 値 | 説明 |
+|--------|-----|------|
+| `OPENWEATHER_API_KEY` | `your_api_key_here` | OpenWeatherMapのAPIキー |
+| `DEFAULT_POSTAL_CODE` | `1000001` | デフォルトの郵便番号（任意） |
 
-設定方法：
+**設定方法**:
 1. Vercelのプロジェクトページで「Settings」タブをクリック
 2. 「Environment Variables」セクションに移動
 3. 上記の環境変数を追加
 4. 「Save」をクリック
-5. プロジェクトを再デプロイ
+5. **「Redeploy」をクリックして再デプロイ**（重要！）
 
-### 4. アクセス
+### 4. デプロイの確認
 
 デプロイが完了すると、Vercelが自動的にURLを生成します：
 - `https://your-project-name.vercel.app`
+
+ブラウザでアクセスして動作を確認してください。
+
+### トラブルシューティング
+
+#### デプロイが失敗する場合
+
+1. **ビルドログを確認**: Vercelのデプロイメントページでログを確認
+2. **環境変数を確認**: `OPENWEATHER_API_KEY`が正しく設定されているか
+3. **再デプロイ**: 環境変数を変更した後は必ず再デプロイ
+
+#### アプリが動作しない場合
+
+1. **Function Logs を確認**: Vercelダッシュボードで実行時エラーを確認
+2. **APIキーを確認**: OpenWeatherMapのAPIキーが有効か確認
+3. **郵便番号を確認**: 7桁の日本の郵便番号を使用しているか確認
+4. 「Save」をクリック
+5. **「Redeploy」をクリックして再デプロイ**（重要！）
+
+### 4. デプロイの確認
+
+デプロイが完了すると、Vercelが自動的にURLを生成します：
+- `https://your-project-name.vercel.app`
+
+ブラウザでアクセスして動作を確認してください。
+
+### トラブルシューティング
+
+#### デプロイが失敗する場合
+
+1. **ビルドログを確認**: Vercelのデプロイメントページでログを確認
+2. **環境変数を確認**: `OPENWEATHER_API_KEY`が正しく設定されているか
+3. **再デプロイ**: 環境変数を変更した後は必ず再デプロイ
+
+#### アプリが動作しない場合
+
+1. **Function Logs を確認**: Vercelダッシュボードで実行時エラーを確認
+2. **APIキーを確認**: OpenWeatherMapのAPIキーが有効か確認
+3. **郵便番号を確認**: 7桁の日本の郵便番号を使用しているか確認
+
+### 5. カスタムドメインの設定（オプション）
+
+Vercelダッシュボードの「Domains」セクションでカスタムドメインを追加できます。
+
+### 詳細なデプロイ手順
+
+より詳細なデプロイ手順とトラブルシューティングについては、[DEPLOYMENT.md](DEPLOYMENT.md)を参照してください。
 
 ## テスト
 

@@ -1,0 +1,30 @@
+# Tests
+tests/
+test-results/
+.pytest_cache/
+.hypothesis/
+
+# Development files
+.kiro/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Documentation
+ARCHITECTURE.md
+
+# Development scripts
+run.py
+weather.py
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
