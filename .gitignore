@@ -29,6 +29,7 @@ wheels/
 htmlcov/
 .coverage
 .coverage.*
+test-results/
 
 # IDEs
 .vscode/
